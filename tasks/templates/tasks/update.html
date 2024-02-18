@@ -1,0 +1,10 @@
+{% extends 'base.html' %}
+{% load crispy_forms_tags %}
+{% block title %}Editar Tarefa{% endblock %}
+{% block h2 %}Editar Tarefa{% endblock %}
+{% block main %}
+    <form method="POST">
+        {% csrf_token %}
+        {% crispy form %}
+    </form>
+{% endblock %}

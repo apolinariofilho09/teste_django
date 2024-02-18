@@ -1,0 +1,55 @@
+{% extends 'base.html' %}
+{% block title %}Lista de Tarefas{% endblock %}
+{% block h2 %}Lista de Tarefas{% endblock %}
+{% block main %}
+    <a href="{% url 'tasks:Create' %}" class="btn btn-success btn-sm mb-2">+ Nova Tarefa</a>
+    {% if tasks %}
+    <table class="table table-hover table-sm text-center">
+        <thead class="thead thead-dark">
+            <tr>
+                <th scope="col">Seq.</th>
+                <th scope="col">Descrição da Tarefa</th>
+                <th scope="col">Data de Registro</th>
+                <th scope="col">Previsão de Entrega</th>
+                <th scope="col">Data de Conclusão</th>
+                <th scope="col">Botões de Ação</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for task in tasks %}
+            <a href=""><tr>
+                <th><a href="{% url 'tasks:Taskk' task.pk %}" class="btn btn-info btn-sm">Ver</a></th>
+                <td>
+                    {% if task.text_description|length > 15 %}
+                        {{ task.text_description|slice:":15" }}...
+                    {% else %}
+                        {{ task.text_description }}
+                    {% endif %}
+                </td>
+                <td>{{ task.date_register|date:"SHORT_DATE_FORMAT" }}</td>
+                <td>{{ task.date_delivery|date:"SHORT_DATE_FORMAT" }}</td>
+                <td>{{ task.date_complete|date:"SHORT_DATE_FORMAT"|default:"-" }}</td>
+                <td>
+                    <a href="{% url 'tasks:Complete' task.pk %}" class="btn btn-primary btn-sm 
+                    {%  if task.date_complete %} disabled {% endif %}">Concluir</a>
+                    <a href="{% url 'tasks:Update' task.pk %}" class="btn btn-secondary btn-sm 
+                    {%  if task.date_complete %} disabled {% endif %}">Editar</a>
+                    <a href="{% url 'tasks:Delete' task.pk %}" class="btn btn-danger btn-sm">Excluir</a>
+                </td>
+            </tr></a>
+            {% endfor %}
+        </tbody>
+    </table>
+    {% if page_obj.has_previous %}
+        <a href="?page=1" class="btn btn-sm btn-secondary" style="font-size: 8px;">&laquo; Primeira Página</a>
+        <a href="?page={{ page_obj.previous_page_number }}" class="btn btn-sm btn-secondary" style="font-size: 8px;">Página Anterior</a>
+    {% endif %}
+
+    {% if page_obj.has_next %}
+        <a href="?page={{ page_obj.next_page_number }}" class="btn btn-sm btn-secondary" style="font-size: 8px;">Próxima Página</a>
+        <a href="?page={{ page_obj.paginator.num_pages }}" class="btn btn-sm btn-secondary" style="font-size: 8px;">Última Página &raquo;</a>
+    {% endif %}
+    {% else %}
+        <p>Nenhum Registro de Tarefa Encontrado</p>
+    {% endif %}
+{% endblock %}
