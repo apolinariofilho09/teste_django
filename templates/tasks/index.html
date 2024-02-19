@@ -28,7 +28,7 @@
                 </td>
                 <td>{{ task.date_register|date:"SHORT_DATE_FORMAT" }}</td>
                 <td>{{ task.date_delivery|date:"SHORT_DATE_FORMAT" }}</td>
-                <td>{{ task.date_complete|date:"SHORT_DATE_FORMAT"|default:"-" }}</td>
+                <td>{{ task.date_complete|date:"SHORT_DATETIME_FORMAT"|default:"-" }}</td>
                 <td>
                     <a href="{% url 'tasks:Complete' task.pk %}" class="btn btn-primary btn-sm 
                     {%  if task.date_complete %} disabled {% endif %}">Concluir</a>
