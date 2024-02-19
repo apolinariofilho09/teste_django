@@ -10,8 +10,8 @@ class FormTask(forms.ModelForm):
         fields='__all__'
         labels={
             'text_description': 'Descrição da Tarefa',
-            'date_delivery':'Previsão de Entrega',
-            'date_complete': 'Data de Conclusão'
+            'date_delivery':'Previsão de Entrega (dd/mm/yyyy)',
+            'date_complete': 'Data de Conclusão (dd/mm/yyyy)'
         }
     
     def clean_date_delivery(self):
