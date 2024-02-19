@@ -1,4 +1,5 @@
 from django import forms
+from django.utils import timezone
 from crispy_forms.helper import FormHelper
 from crispy_forms.layout import Layout, HTML, Submit, Row, Column
 from tasks import models
@@ -12,6 +13,12 @@ class FormTask(forms.ModelForm):
             'date_delivery':'Previsão de Entrega',
             'date_complete': 'Data de Conclusão'
         }
+    
+    def clean_date_delivery(self):
+        date_delivery = self.cleaned_data['date_delivery']
+        if date_delivery.date() < timezone.now().date():
+            raise forms.ValidationError('A Previsão de Entrega Precisar ser Maior ou Igual a Hoje!')
+        return date_delivery
 
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
@@ -23,7 +30,7 @@ class FormTask(forms.ModelForm):
             ),
             Row(
                 Column('date_complete', css_class='form-group col-md-5 mb-0'),
-                Column('usuario', css_class='form-group col-md-5 mb-0'),
+                #Column('usuario', css_class='form-group col-md-5 mb-0'),
             ),
             Submit('submit', 'Salvar'),
             HTML('<a href="{% url "tasks:Index" %}" class="btn btn-danger">Cancelar</a>')
